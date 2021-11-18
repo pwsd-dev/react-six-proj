@@ -37,16 +37,11 @@ export default class extends React.Component {
 
     onChange = (e) => {
         let cnt = parseInt(e.target.value);
-
-        // this.setState(isNan(cnt) ? this.props.min : cnt); // тернарный оператор здесь более лаконичен
         let realCnt = this.set(isNaN(cnt) ? this.props.min : cnt)
-        // if (isNaN(cnt)) {
-        //     cnt = this.props.min // но для наглядности показал, что ветвление тоже работает
-        // }
 
-        if (realCnt.toString() !== e.target.value) {
+        if (realCnt.toString() !== e.target.value) {// если не равен то что-то поменяли не подходящее по условиям 
             console.log('HARD SET VALUE')
-            this.lazyInput.current.setValue(realCnt);
+            this.lazyInput.current.setValue(realCnt);// то принудительно обновляется состояние компонента и ставит пересчитанный cnt
         }
 
         this.set(cnt);
