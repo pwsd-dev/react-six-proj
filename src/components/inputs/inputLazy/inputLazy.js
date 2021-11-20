@@ -15,7 +15,7 @@ export default class extends React.Component {
 
     nativeInput = React.createRef(); // ref, который используется ниже;
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {  // при нажатии на кпонки этот компонент сообщает, что состояние обновилось , без него при нажатии на кнопки обновления не будет, то есть по нажатии плюс будет оставаться 1, а не становиться 2
         // console.log(this.nativeInput)
         let inp = this.nativeInput.current; // у nativeInput есть ключ current , проверить это можно строкой выше
         if (prevProps.value !== this.props.value ||
