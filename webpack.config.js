@@ -7,7 +7,7 @@ let conf = {
         path: path.resolve(__dirname, './dist/'),
         filename: 'main.js',
         publicPath: 'dist/',
-        
+
     },
     plugins: [
         new MiniCssExtractPlugin({
@@ -60,7 +60,7 @@ let conf = {
                         options: {
                             hmr: process.env.NODE_ENV === 'development',
                         }
-                    }, 
+                    },
                     'css-loader'
                 ]
             }

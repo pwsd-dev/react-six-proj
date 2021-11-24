@@ -4,7 +4,7 @@ import InputLazy from '../inputLazy/inputLazy.js';
 import styles from './style.module.css';
 
 
-export default class extends React.Component {
+export default class extends React.PureComponent {
     static propTypes = {
         min: PropTypes.number.isRequired,
         max: PropTypes.number.isRequired,
@@ -68,6 +68,7 @@ export default class extends React.Component {
     }
 
     render() {
+        console.log('input render')
         return (
             <div>
                 <button onClick={this.increaseMinus}>minus 1</button>

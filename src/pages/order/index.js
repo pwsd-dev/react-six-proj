@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Modal } from 'react-bootstrap';
-import styles from './order.module.css';
-import router from '../../store/router';
+import styles from './order.module.css';//./order.module.css'
+
 import { observer } from 'mobx-react';
-// import './order.module.css';
+import router from '../../store/router';
+import orderModel from '../../store/order'
+import cartModel from '../../store/cart';
 
 @observer class Result extends React.Component {
-    static propTypes = {
-        formData: PropTypes.object.isRequired,
-        onSend: PropTypes.func.isRequired,
-        onChange: PropTypes.func.isRequired,
-        onBack: PropTypes.func.isRequired,
-    }
 
     state = {
         showModal: false,
@@ -29,14 +25,15 @@ import { observer } from 'mobx-react';
 
     confirm = () => {
         this.hide();
-        this.props.onSend(); // передается колбэк после которого, в родителя приходит onSend и переходит на result
+        router.moveTo('result')
+
     }
 
     render() {
         let formFields = [];
 
-        for (let name in this.props.formData) {
-            let field = this.props.formData[name] // - ссылка на объект, копиоуются все ключи объекта
+        for (let name in orderModel.formData) {
+            let field = orderModel.formData[name] // - ссылка на объект, копируются все ключи объекта
 
             formFields.push(
                 <Form.Group key={name} controlId={'order-form-' + name}>
@@ -44,8 +41,14 @@ import { observer } from 'mobx-react';
                     <Form.Control
                         type="text"
                         value={field.value} // value здесь значит переданное в инпут значение 
-                        onChange={(e) => this.props.onChange(name, e.target.value)} // без name будет работать некорректно
+                        onChange={(e) => orderModel.change(name, e.target.value)} // без name будет работать некорректно
                     />
+                    {field.valid === null || field.valid ? '' :
+                        <Form.Text className="text-muted">
+                            {field.errorText}
+                        </Form.Text>
+                    }
+
                 </Form.Group>
             )
         }
@@ -59,7 +62,7 @@ import { observer } from 'mobx-react';
                 </Form>
                 <hr />
                 <Button
-                    variant="primary"
+                    // variant="primary"
                     className={styles.margin}
                     onClick={() => router.moveTo('cart')}
 
@@ -67,14 +70,17 @@ import { observer } from 'mobx-react';
                 </Button>
                 <Button
                     variant="warning" // - сначала показывается модальное окно перед третьим шагом
-                    onClick={this.show}>Apply order
+                    onClick={this.show}
+                // disabled={!orderModel.formValid}
+                >Apply order
                 </Button>
                 <Modal show={this.state.showModal}
-                    backdrop="static">
+                    backdrop="static"
+                    onHide={this.hide}>
                     <Modal.Header closeButton>
                         <Modal.Title>Проверьте информацию</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Вы подтверждаете свою информацию?</Modal.Body>
+                    <Modal.Body>Total: {cartModel.total}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.hide}>
                             Закрыть
@@ -84,7 +90,7 @@ import { observer } from 'mobx-react';
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </div>
+            </div >
         )
     }
 }

@@ -8,6 +8,9 @@ import router from '../../store/router';
 import { observer } from 'mobx-react';
 
 @observer class Cart extends React.Component {
+    nextStep() {
+        router.moveTo('order');
+    }
 
     render() {
         console.log(cartModel);
@@ -22,7 +25,7 @@ import { observer } from 'mobx-react';
                         <InputForApp min={1}
                             max={product.rest}
                             cnt={product.current}
-                            onChange={(cnt) => cartModel.change(i, cnt)} // - i здесь , это номер итерации, я же могу и три раза добавить
+                            onChange={cartModel.changeOn[i]} // (cnt) => cartModel.change(i, cnt) - i здесь , это номер итерации, я же могу и три раза добавить
                         />
                     </td>
                     <td>{product.price * product.current}</td>
@@ -49,11 +52,13 @@ import { observer } from 'mobx-react';
                         {productRows}
                         <h2> Total: {cartModel.total}</h2>
                         <hr />
-                        <button className="btn btn-primary" onClick={() => router.moveTo('order')}>Send</button>
+                        {/* <button className="btn btn-primary" onClick={() => router.moveTo('order')}>Send</button> */}
+                        <button className="btn btn-primary" onClick={this.nextStep}>Send</button>
 
                     </tbody>
                 </table>
             </div>
+
         );
 
     }

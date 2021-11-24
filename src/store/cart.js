@@ -3,6 +3,12 @@ import { observable, computed, action } from 'mobx';
 class Cart {
     @observable products = getProducts()
 
+    @computed get changeOn() {
+        return this.products.map((product, i) => { // возвращает массив функций, где каждая умеет изменять cnt
+            return (cnt) => this.change(i, cnt); // и видит i по замыканию
+        });
+    }
+
     @computed get total() {
         return this.products.reduce((t, pr) => t + pr.price * pr.current, 0); // - к тоталу плюсуем pr.price * pr.current
     }
@@ -17,8 +23,6 @@ class Cart {
 }
 
 export default new Cart();
-
-
 
 function getProducts() {
     return [

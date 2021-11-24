@@ -1,3 +1,6 @@
 .margin {
-    margin-right: 10px;
+    margin-right: 150px;
+    background-color: red;
+    color: black;
+    margin-top: 40px;
 }
