@@ -13,14 +13,14 @@ class Router {
         result: () => <Result />,
     }
 
-    @observable activeRoute = 'cart'
-
     @computed get component() {
         // проверка есть ли роут в списке6 если нет => p404
 
         return this.routes[this.activeRoute](); // в конце стоят (), потому что сначала возвращает функцию и ее запускает
         //      () => <Cart />, вместо этой строки возвращает эту функцию и выполняет
     }
+
+    @observable activeRoute = 'cart'
 
     @action moveTo(route) {
         // проверка есть ли роут в списке
